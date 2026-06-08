@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SEMPRO — Farhan Hilmy — UIN Suska Riau</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#1a1209;
+  --paper:#f5f0e8;
+  --paper2:#ede7d9;
+  --paper3:#e4dccb;
+  --teal:#1d6b6b;
+  --teal-light:#2d9191;
+  --teal-pale:rgba(29,107,107,.09);
+  --amber:#b8621a;
+  --amber-pale:rgba(184,98,26,.09);
+  --slate:#2c3e4a;
+  --slate-mid:#4a6070;
+  --slate-light:#7a96a8;
+  --green:#2d6a4f;
+  --red:#9b2c2c;
+  --r:10px;
+  --fh:'Playfair Display',serif;
+  --fb:'DM Sans',sans-serif;
+  --fm:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{height:100%;overflow:hidden}
+body{
+  background:var(--paper);color:var(--ink);font-family:var(--fb);
+  height:100vh;overflow:hidden;display:flex;flex-direction:column;
+  position:relative
+}
+
+/* TOPO GRID */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.14;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(29,107,107,.3) 39px,rgba(29,107,107,.3) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(29,107,107,.3) 39px,rgba(29,107,107,.3) 40px);
+  background-size:40px 40px
+}
+
+/* ========= NAVBAR ========= */
+.pres-nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(245,240,232,.95);backdrop-filter:blur(16px);
+  border-bottom:2px solid var(--ink);height:52px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem
+}
+.pn-left{display:flex;align-items:center;gap:.75rem}
+.pn-logo{
+  width:28px;height:28px;background:var(--teal);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;flex-shrink:0
+}
+.pn-title{font-family:var(--fh);font-size:.9rem;font-weight:700}
+.pn-sub{font-size:.65rem;color:var(--slate-light);font-family:var(--fm);letter-spacing:.06em}
+.pn-right{display:flex;align-items:center;gap:.75rem}
+.slide-counter{font-family:var(--fm);font-size:.75rem;color:var(--teal);background:var(--teal-pale);
+  border:1px solid rgba(29,107,107,.2);padding:.25rem .7rem;border-radius:5px}
+.nav-btn{
+  width:32px;height:32px;border:1.5px solid var(--ink);border-radius:6px;background:transparent;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  transition:all .2s;color:var(--ink)
+}
+.nav-btn:hover{background:var(--ink);color:var(--paper)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+
+/* ========= SLIDES CONTAINER ========= */
+.slides-wrap{
+  flex:1;margin-top:52px;overflow:hidden;position:relative;z-index:1
+}
+.slide{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;
+  transform:translateX(30px)
+}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.prev{transform:translateX(-30px)}
+.slide-inner{
+  flex:1;overflow-y:auto;padding:2rem 3rem;
+  display:flex;flex-direction:column;gap:1.25rem
+}
+@media(max-width:768px){.slide-inner{padding:1rem 1.25rem}}
+
+/* scrollbar */
+.slide-inner::-webkit-scrollbar{width:4px}
+.slide-inner::-webkit-scrollbar-thumb{background:var(--teal);border-radius:2px}
+
+/* ========= PROGRESS ========= */
+.progress-bar{
+  height:3px;background:var(--paper3);position:fixed;top:52px;left:0;right:0;z-index:199
+}
+.progress-fill{height:100%;background:var(--teal);transition:width .4s ease}
+
+/* ========= FOOTER ========= */
+.pres-foot{
+  border-top:1px solid var(--paper3);padding:.45rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(245,240,232,.9);z-index:100;flex-shrink:0
+}
+.foot-txt{font-family:var(--fm);font-size:.6rem;color:var(--slate-light);letter-spacing:.06em}
+
+/* ========= COMMON SLIDE PARTS ========= */
+.slide-tag{
+  display:inline-block;font-family:var(--fm);font-size:.62rem;text-transform:uppercase;
+  letter-spacing:.15em;color:var(--teal);border-bottom:2px solid var(--teal);
+  padding-bottom:2px;margin-bottom:.5rem
+}
+.slide-h1{
+  font-family:var(--fh);font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;
+  line-height:1.05;letter-spacing:-.025em
+}
+.slide-h1 em{font-style:italic;color:var(--teal)}
+.slide-h2{
+  font-family:var(--fh);font-size:clamp(1.1rem,2.5vw,1.6rem);font-weight:700;
+  line-height:1.1;letter-spacing:-.015em
+}
+.slide-body{color:var(--slate-mid);font-size:.875rem;line-height:1.75;font-weight:300}
+.rule{height:2px;background:var(--paper3);border:none;flex-shrink:0}
+.rule-teal{height:2px;background:var(--teal);border:none;flex-shrink:0;width:60px}
+
+/* cards */
+.card-grid{display:grid;gap:1rem}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr}}
+.card{
+  background:#fff;border:1.5px solid var(--paper3);border-radius:var(--r);
+  padding:1.1rem 1.25rem;transition:border-color .2s
+}
+.card:hover{border-color:var(--teal)}
+.card-icon{font-size:1.3rem;margin-bottom:.5rem}
+.card-title{font-family:var(--fh);font-size:.92rem;font-weight:700;margin-bottom:.35rem}
+.card-body{font-size:.78rem;color:var(--slate-mid);line-height:1.65;font-weight:300}
+.card-tag{
+  display:inline-block;font-family:var(--fm);font-size:.58rem;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--teal);background:var(--teal-pale);
+  border:1px solid rgba(29,107,107,.2);padding:.15rem .5rem;border-radius:3px;margin-bottom:.6rem
+}
+
+/* badge rows */
+.badge-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.badge{
+  font-family:var(--fm);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;
+  padding:.2rem .6rem;border-radius:3px
+}
+.bd-teal{background:var(--teal-pale);border:1px solid rgba(29,107,107,.25);color:var(--teal)}
+.bd-amber{background:var(--amber-pale);border:1px solid rgba(184,98,26,.25);color:var(--amber)}
+.bd-slate{background:rgba(44,62,74,.06);border:1px solid rgba(44,62,74,.2);color:var(--slate-mid)}
+
+/* numbered list */
+.num-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.num-list li{
+  display:flex;align-items:flex-start;gap:.75rem;
+  font-size:.855rem;color:var(--slate-mid);line-height:1.6;font-weight:300
+}
+.nl-n{
+  width:22px;height:22px;background:var(--teal);color:#fff;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fm);font-size:.62rem;flex-shrink:0;margin-top:2px
+}
+
+/* flow steps */
+.flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:.5rem}
+.flow-step{
+  background:#fff;border:1.5px solid var(--paper3);border-radius:8px;
+  padding:.85rem 1rem;flex:1;min-width:130px;text-align:center;position:relative
+}
+.flow-step+.flow-step::before{
+  content:'→';position:absolute;left:-14px;top:50%;transform:translateY(-50%);
+  color:var(--teal);font-size:1rem;font-weight:700
+}
+.flow-step-num{
+  font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--teal);margin-bottom:.2rem
+}
+.flow-step-name{font-size:.72rem;font-weight:600;margin-bottom:.25rem;color:var(--ink)}
+.flow-step-sub{font-size:.62rem;color:var(--slate-light);line-height:1.4}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl th{
+  background:var(--ink);color:var(--paper);padding:.55rem .85rem;
+  font-family:var(--fm);font-size:.65rem;text-align:left;letter-spacing:.07em;
+  text-transform:uppercase;font-weight:500
+}
+.tbl td{
+  padding:.55rem .85rem;border-bottom:1px solid var(--paper3);
+  color:var(--slate-mid);font-weight:300;line-height:1.5;vertical-align:top
+}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:nth-child(even) td{background:var(--paper)}
+
+/* 2-col layout */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
+
+/* section label left-border */
+.sec-label{
+  border-left:4px solid var(--teal);padding-left:.85rem;
+  font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:.75rem
+}
+.sec-label-amber{border-left-color:var(--amber)}
+
+/* info box */
+.info-box{
+  background:var(--teal-pale);border:1.5px solid rgba(29,107,107,.25);border-radius:8px;
+  padding:.9rem 1.1rem;font-size:.82rem;color:var(--teal);line-height:1.65
+}
+.info-box b{color:var(--teal)}
+.warn-box{
+  background:var(--amber-pale);border:1.5px solid rgba(184,98,26,.25);border-radius:8px;
+  padding:.9rem 1.1rem;font-size:.82rem;color:var(--amber);line-height:1.65
+}
+
+/* cover slide special */
+.cover-wrap{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2rem;text-align:center;gap:1rem;position:relative;z-index:1
+}
+.cover-logo-ring{
+  width:90px;height:90px;border-radius:50%;background:#fff;
+  border:3px solid var(--teal);display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;margin-bottom:.5rem;box-shadow:4px 4px 0 var(--teal)
+}
+.cover-univ{font-family:var(--fm);font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;color:var(--slate-light);margin-bottom:.25rem}
+.cover-h1{font-family:var(--fh);font-size:clamp(1.2rem,3vw,2rem);font-weight:900;line-height:1.1;max-width:700px;letter-spacing:-.02em}
+.cover-h1 em{font-style:italic;color:var(--teal)}
+.cover-divider{width:80px;height:2px;background:var(--teal);margin:.5rem auto}
+.cover-meta{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:.25rem}
+.cover-meta-item{text-align:center}
+.cover-meta-label{font-family:var(--fm);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--slate-light)}
+.cover-meta-val{font-size:.85rem;font-weight:600;color:var(--ink);margin-top:.15rem}
+.cover-badges{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+
+/* iframe */
+.model-frame{
+  width:100%;height:280px;border:2px solid var(--paper3);border-radius:10px;
+  overflow:hidden;position:relative;background:var(--ink)
+}
+.model-frame iframe{width:100%;height:100%;border:none;display:block}
+.model-loader{
+  position:absolute;inset:0;background:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem
+}
+.model-loader-ring{
+  width:28px;height:28px;border:3px solid rgba(255,255,255,.1);
+  border-top-color:#5fcfcf;border-radius:50%;animation:spin .7s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.model-loader span{font-family:var(--fm);font-size:.62rem;color:rgba(255,255,255,.3);letter-spacing:.07em}
+
+/* model card (slide after cover) */
+.model-card{
+  background:#fff;border:2px solid var(--paper3);border-radius:14px;overflow:hidden;
+  max-width:600px;margin:0 auto;box-shadow:4px 4px 0 var(--teal);
+  transition:border-color .25s
+}
+.model-card:hover{border-color:var(--teal)}
+.model-frame-big{position:relative;height:320px;background:var(--ink)}
+.model-frame-big iframe{width:100%;height:100%;border:none;display:block}
+.model-frame-overlay{
+  position:absolute;bottom:0;left:0;right:0;height:70px;
+  background:linear-gradient(to top,rgba(26,18,9,.75),transparent);pointer-events:none
+}
+.model-chip{
+  position:absolute;top:.75rem;left:.75rem;
+  background:var(--teal);color:#fff;font-family:var(--fm);font-size:.6rem;
+  padding:.25rem .65rem;border-radius:3px;letter-spacing:.1em;text-transform:uppercase
+}
+.model-num{
+  position:absolute;top:.6rem;right:.75rem;
+  font-family:var(--fh);font-size:2rem;font-weight:900;color:rgba(255,255,255,.1);line-height:1
+}
+.model-body-card{padding:1.25rem 1.5rem}
+.model-title-card{font-family:var(--fh);font-size:1.1rem;font-weight:700;margin-bottom:.3rem}
+.model-desc-card{font-size:.82rem;color:var(--slate-mid);line-height:1.65;margin-bottom:.85rem;font-weight:300}
+.model-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.85rem}
+.chip{font-family:var(--fm);font-size:.62rem;padding:.2rem .55rem;border-radius:3px;text-transform:uppercase;letter-spacing:.07em}
+.chip-teal{background:var(--teal-pale);color:var(--teal);border:1px solid rgba(29,107,107,.2)}
+.chip-amber{background:var(--amber-pale);color:var(--amber);border:1px solid rgba(184,98,26,.2)}
+.chip-slate{background:rgba(44,62,74,.06);color:var(--slate-mid);border:1px solid rgba(44,62,74,.15)}
+.model-open{
+  display:block;text-align:center;padding:.6rem;background:var(--teal-pale);
+  border:1.5px solid var(--teal);border-radius:7px;font-size:.8rem;
+  color:var(--teal);font-weight:600;text-decoration:none;transition:all .2s
+}
+.model-open:hover{background:var(--teal);color:#fff}
+
+/* kbd shortcut hint */
+.kbd-hint{
+  position:fixed;bottom:3.5rem;left:50%;transform:translateX(-50%);
+  font-family:var(--fm);font-size:.62rem;color:var(--slate-light);
+  background:rgba(245,240,232,.85);backdrop-filter:blur(8px);
+  border:1px solid var(--paper3);padding:.3rem .8rem;border-radius:20px;
+  transition:opacity .3s;letter-spacing:.05em;z-index:150;pointer-events:none
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="pres-nav">
+  <div class="pn-left">
+    <div class="pn-logo">⬡</div>
+    <div>
+      <div class="pn-title">Seminar Proposal — Farhan Hilmy</div>
+      <div class="pn-sub">UIN SULTAN SYARIF KASIM RIAU · 2026</div>
+    </div>
+  </div>
+  <div class="pn-right">
+    <span class="slide-counter" id="ctr">1 / 10</span>
+    <button class="nav-btn" id="prevBtn" onclick="go(-1)" disabled>◀</button>
+    <button class="nav-btn" id="nextBtn" onclick="go(1)">▶</button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="prog" style="width:9%"></div></div>
+
+<!-- SLIDES -->
+<div class="slides-wrap" id="slidesWrap">
+
+  <!-- ====== SLIDE 1: COVER ====== -->
+  <div class="slide active" id="s0">
+    <div class="cover-wrap">
+      <div class="cover-logo-ring" style="background:transparent;border:none;box-shadow:none;width:110px;height:110px">
+        <img src="https://www.uin-suska.ac.id/wp-content/uploads/2024/07/LOGO-LENGKAP.png"
+          alt="Logo UIN Suska Riau" style="width:100%;height:100%;object-fit:contain"/>
+      </div>
+      <div class="cover-univ">Universitas Islam Negeri Sultan Syarif Kasim Riau — Fakultas Tarbiyah dan Keguruan — Jurusan Pendidikan Geografi</div>
+      <div class="cover-h1">Pengembangan Media Pembelajaran Geografi Berbasis <em>Web-3D</em> melalui Visualisasi Geospasial <em>Real-Terrain</em> secara Interaktif menggunakan <em>Library Three.js</em> pada Materi Mitigasi Bencana</div>
+      <div class="cover-divider"></div>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Disusun Oleh</div>
+          <div class="cover-meta-val">Farhan Hilmy</div>
+          <div style="font-family:var(--fm);font-size:.62rem;color:var(--slate-light)">NIM. 12211313442</div>
+        </div>
+        <div style="width:1px;background:var(--paper3)"></div>
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Dosen Pembimbing</div>
+          <div class="cover-meta-val">Hendra Saputra, M.Pd</div>
+        </div>
+        <div style="width:1px;background:var(--paper3)"></div>
+        <div class="cover-meta-item">
+          <div class="cover-meta-label">Tahun</div>
+          <div class="cover-meta-val">1447 H / 2026 M</div>
+        </div>
+      </div>
+      <div class="cover-badges">
+        <span class="badge bd-teal">Research & Development</span>
+        <span class="badge bd-amber">Three.js · WebGL</span>
+        <span class="badge bd-slate">Mitigasi Bencana</span>
+        <span class="badge bd-teal">Borg & Gall</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 2: MODEL KERAWANAN GUNUNG API ====== -->
+  <div class="slide" id="s1">
+    <div class="slide-inner" style="justify-content:center;gap:1.25rem">
+      <div style="text-align:center">
+        <div class="slide-tag">// Produk Media — Three.js Live</div>
+        <h1 class="slide-h1" style="font-size:clamp(1.3rem,3.5vw,2.2rem)">Demo <em>Kerawanan Gunung Api Meletus</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem;margin-left:auto;margin-right:auto"></div>
+      </div>
+      <div class="model-card">
+        <div class="model-frame-big">
+          <div class="model-loader" id="ld_gunung">
+            <div class="model-loader-ring"></div>
+            <span>LOADING MODEL...</span>
+          </div>
+          <iframe src="https://gilobadunsanak2682003-sys.github.io/Kerawanan-Gunung-Api-Meletus/"
+            title="Kerawanan Gunung Api Meletus" loading="lazy"
+            onload="document.getElementById('ld_gunung').style.display='none'"></iframe>
+          <div class="model-frame-overlay"></div>
+          <div class="model-chip">LIVE 3D</div>
+          <div class="model-num">01</div>
+        </div>
+        <div class="model-body-card">
+          <div class="model-title-card">Kerawanan Gunung Api Meletus</div>
+          <div class="model-desc-card">Visualisasi Area Kerawanan Gunung Marapi Sumatera Barat. Berisikan area kerawanan lontaran material, radius abu vulkanik dan aliran lava dan pencemaran Belerang.</div>
+          <div class="model-chips">
+            <span class="chip chip-teal">🌋 Vulkanisme</span>
+            <span class="chip chip-amber">📍 Gn. Marapi</span>
+            <span class="chip chip-slate">Kontur</span>
+          </div>
+          <a href="https://gilobadunsanak2682003-sys.github.io/Kerawanan-Gunung-Api-Meletus/" target="_blank" class="model-open">↗ Buka Full Screen</a>
+        </div>
+      </div>
+      <div style="font-family:var(--fm);font-size:.62rem;color:var(--slate-light);text-align:center">
+        📱 Sentuh &amp; geser 1 jari = orbit · Cubit 2 jari = zoom · 2 jari geser = pan
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 3: RUMUSAN MASALAH ====== -->
+  <div class="slide" id="s2rm">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Rumusan Masalah</div>
+        <h1 class="slide-h1">6 Rumusan <em>Masalah</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="info-box">
+        Berdasarkan batasan masalah, penelitian ini merumuskan enam pertanyaan utama yang akan dijawab melalui proses Research &amp; Development (R&amp;D).
+      </div>
+      <ul class="num-list">
+        <li>
+          <span class="nl-n">1</span>
+          <span>Bagaimana <b>kondisi dan karakteristik</b> media pembelajaran Geografi yang saat ini digunakan di sekolah?</span>
+        </li>
+        <li>
+          <span class="nl-n">2</span>
+          <span>Bagaimana <b>kebutuhan guru dan peserta didik</b> terhadap media pembelajaran Geografi berbasis Web-3D dengan visualisasi geospasial real-terrain?</span>
+        </li>
+        <li>
+          <span class="nl-n">3</span>
+          <span>Bagaimana <b>rancangan desain (prototype)</b> media pembelajaran Geografi berbasis Web-3D menggunakan library Three.js yang mengintegrasikan data satelit Sentinel-2?</span>
+        </li>
+        <li>
+          <span class="nl-n">4</span>
+          <span>Bagaimana <b>proses pengembangan</b> media pembelajaran Geografi berbasis Web-3D melalui visualisasi geospasial real-terrain secara interaktif?</span>
+        </li>
+        <li>
+          <span class="nl-n">5</span>
+          <span>Bagaimana <b>tingkat kevalidan</b> media pembelajaran Geografi berbasis Web-3D ditinjau dari aspek materi, media, dan bahasa menurut penilaian ahli (validator)?</span>
+        </li>
+        <li>
+          <span class="nl-n">6</span>
+          <span>Bagaimana <b>tingkat kepraktisan</b> media pembelajaran Geografi berbasis Web-3D berdasarkan respon guru dan peserta didik sebagai calon pengguna?</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 3: STANDAR KELAYAKAN BSKAP & SKKNI ====== -->
+  <div class="slide" id="s2">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Standar Kelayakan</div>
+        <h1 class="slide-h1">BSKAP <em>Kemendikbudristek</em> & <em>SKKNI</em> Informasi Geospasial</h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="sec-label">Standar BSKAP — Kemendikbudristek</div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-tag">Aspek 1</div>
+              <div class="card-title">📚 Kelayakan Isi (Materi)</div>
+              <div class="card-body">Kesesuaian materi dengan kompetensi dasar kurikulum, keakuratan konsep, dan kemutakhiran data — mencakup kesesuaian media dengan materi mitigasi bencana.</div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Aspek 2</div>
+              <div class="card-title">🎯 Kelayakan Penyajian</div>
+              <div class="card-body">Runtutan alur penyajian, interaktivitas, dan kemampuan media untuk merangsang partisipasi aktif siswa dalam menjelajahi model 3D.</div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Aspek 3</div>
+              <div class="card-title">📝 Kelayakan Kebahasaan</div>
+              <div class="card-body">Penggunaan bahasa Indonesia yang baik, benar, komunikatif, dan sesuai dengan tingkat perkembangan kognitif siswa SMA/MA.</div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Aspek 4</div>
+              <div class="card-title">🖥️ Kelayakan Kegrafikan</div>
+              <div class="card-body">Kualitas desain antarmuka (UI), keterbacaan topografi, harmonisasi warna, dan efisiensi navigasi media Web-3D.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-label sec-label-amber">Standar SKKNI Informasi Geospasial</div>
+          <div class="card" style="margin-bottom:.75rem">
+            <div class="card-tag">Menjamin Validitas Data</div>
+            <div class="card-title">⚡ Prosedur Teknis SKKNI</div>
+            <div class="card-body">Proses pengolahan data geospasial pada media ini mengikuti prosedur teknis yang diatur dalam SKKNI Informasi Geospasial untuk menjamin akurasi dan validitas data spasial yang dihasilkan.</div>
+          </div>
+          <ul class="num-list">
+            <li><span class="nl-n" style="background:var(--amber)">◆</span><span><b>Akuisisi Data</b> — pengunduhan citra Sentinel-2 dan Digital Elevasi Model (DEM) dari repository resmi</span></li>
+            <li><span class="nl-n" style="background:var(--amber)">◆</span><span><b>Pengolahan Citra</b> — Koreksi atmosferik, Resampling dan Subset di software SNAP sesuai standar SKKNI</span></li>
+            <li><span class="nl-n" style="background:var(--amber)">◆</span><span><b>Analisis Data</b> — Georeferensing citra, Analisis data dan pengolahan Shapfile yang dibutuhkan menggunakan tools Arcmap sesuai standar BIG</span></li>
+            <li><span class="nl-n" style="background:var(--amber)">◆</span><span><b>Ekspor 3D</b> — konversi ke format Three.js via Plugin di software Qgis dengan sistem koordinat UTM yang tervalidasi</span></li>
+            <li><span class="nl-n" style="background:var(--amber)">◆</span><span><b>Novelty dan Kebaharuan</b> — Melakukan Post Prosesing untuk menambahkan fitur interaktifitas Media dengan mengedit Code di bebebrapa file hasil Export </span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 4: TEORI RICHARD MAYER ====== -->
+  <div class="slide" id="s3">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Kajian Teori</div>
+        <h1 class="slide-h1">Teori Pembelajaran Multimedia <em>Richard Mayer</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="info-box" style="margin-bottom:.25rem">
+        <b>Cognitive Theory of Multimedia Learning (CTML)</b> — Mayer (2009; 2020): Manusia belajar jauh lebih baik dari kombinasi <b>kata dan gambar (visual)</b> dibandingkan hanya dari kata-kata saja. Pembelajaran melibatkan saluran pemrosesan visual untuk mengurangi beban kognitif (cognitive load) siswa.
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="sec-label">3 Asumsi Dasar CTML</div>
+          <ul class="num-list">
+            <li><span class="nl-n">1</span><span><b>Dual Channel</b> — manusia memiliki dua saluran pemrosesan terpisah: visual/pictorial dan auditory/verbal</span></li>
+            <li><span class="nl-n">2</span><span><b>Limited Capacity</b> — setiap saluran memiliki kapasitas terbatas untuk memproses informasi sekaligus</span></li>
+            <li><span class="nl-n">3</span><span><b>Active Processing</b> — belajar yang bermakna terjadi saat siswa aktif memilih, mengorganisasi, dan mengintegrasikan informasi</span></li>
+          </ul>
+          <div style="margin-top:1rem">
+            <div class="sec-label">Relevansi dengan Web-3D</div>
+            <div class="card">
+              <div class="card-body">Visualisasi <i>real-terrain</i> Three.js mengaktifkan <b>saluran visual</b> secara penuh — siswa tidak hanya membaca teks, tetapi secara aktif <b>memanipulasi model 3D</b> (orbit, zoom, pan, manipulasi altitude, simulasi jalur evakuasi) untuk membangun pemahaman spasial mitigasi bencana.</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-label">Prinsip Multimedia Mayer</div>
+          <div class="card-grid">
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 1</div>
+              <div class="card-title" style="font-size:.82rem">🖼️ Multimedia</div>
+              <div class="card-body" style="font-size:.72rem">Kata + gambar lebih efektif daripada kata saja</div>
+            </div>
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 2</div>
+              <div class="card-title" style="font-size:.82rem">📍 Contiguity</div>
+              <div class="card-body" style="font-size:.72rem">Teks dan gambar yang berdekatan lebih efektif</div>
+            </div>
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 3</div>
+              <div class="card-title" style="font-size:.82rem">✂️ Coherence</div>
+              <div class="card-body" style="font-size:.72rem">Hapus elemen yang tidak relevan untuk mengurangi beban kognitif</div>
+            </div>
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 4</div>
+              <div class="card-title" style="font-size:.82rem">🎯 Signaling</div>
+              <div class="card-body" style="font-size:.72rem">Petunjuk visual mengarahkan perhatian ke elemen kunci</div>
+            </div>
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 5</div>
+              <div class="card-title" style="font-size:.82rem">🎞️ Segmenting</div>
+              <div class="card-body" style="font-size:.72rem">Pisahkan konten menjadi segmen yang dapat dikontrol</div>
+            </div>
+            <div class="card" style="padding:.8rem 1rem">
+              <div class="card-tag">Prinsip 6</div>
+              <div class="card-title" style="font-size:.82rem">🖥️ Interactivity</div>
+              <div class="card-body" style="font-size:.72rem">Kontrol aktif siswa meningkatkan pemahaman mendalam</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 5: ALUR TEKNIS GEOSPASIAL ====== -->
+  <div class="slide" id="s4">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Teknologi</div>
+        <h1 class="slide-h1">Alur Teknis Integrasi Data <em>Geospasial</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div class="flow-step-name">Akuisisi Data</div>
+          <div class="flow-step-sub">Sentinel-2 MSI &<br/>SRTM DEM 30m</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div class="flow-step-name">Pra-Proses</div>
+          <div class="flow-step-sub">Koreksi radiometrik & atmosferik di SNAP/QGIS</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div class="flow-step-name">Analisis GIS</div>
+          <div class="flow-step-sub">NDVI, kontur, klasifikasi risiko banjir/longsor</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <div class="flow-step-name">Ekspor 3D</div>
+          <div class="flow-step-sub">Qgis2threejs → GeoJSON + Heightmap tile</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">5</div>
+          <div class="flow-step-name">Render Web</div>
+          <div class="flow-step-sub">Three.js + WebGL real-time di browser</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">6</div>
+          <div class="flow-step-name">Media Ajar</div>
+          <div class="flow-step-sub">Platform web interaktif untuk siswa SMA</div>
+        </div>
+      </div>
+      <div class="two-col" style="margin-top:.5rem">
+        <div>
+          <div class="sec-label">Stack Teknologi</div>
+          <table class="tbl">
+            <thead><tr><th>Komponen</th><th>Tools / Teknologi</th></tr></thead>
+            <tbody>
+              <tr><td>Citra Satelit</td><td>Sentinel-2 MSI (Resolusi 10m)</td></tr>
+              <tr><td>Model Elevasi</td><td>Data DEM 10m / DEMNAS BIG</td></tr>
+              <tr><td>Inderaja Desktop</td><td>SNAP (Software pengolahan citra Sentinel)</td></tr>
+              <tr><td>GIS Desktop</td><td>Arcgis Tool + Plugin Qgis</td></tr>
+              <tr><td>Render Engine</td><td>Three.js r128 + WebGL 2.0</td></tr>
+              <tr><td>Proyeksi</td><td>Proj4js — UTM Zone 47N/48N</td></tr>
+              <tr><td>GUI Kontrol</td><td>dat-GUI — Layer panel toggle</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="sec-label">Fitur Interaktif Media</div>
+          <ul class="num-list">
+            <li><span class="nl-n">◉</span><span><b>Orbit Kamera</b> — siswa menjelajahi terrain dari segala sudut pandang</span></li>
+            <li><span class="nl-n">◉</span><span><b>Layer Toggle</b> — tampilkan, sembunyikan, dan perbandingan multi-temporal Layer</span></li>
+            <li><span class="nl-n">◉</span><span><b>Klik Koordinat</b> — info lokasi dan penghitungan jarak serta perencanaan jalur evakuasi</span></li>
+            <li><span class="nl-n">◉</span><span><b>Costume Plane</b> — Manipulasi Altitude ketinggian Air dsb</span></li>
+            <li><span class="nl-n">◉</span><span><b>Zoom Multi-Level</b> — dari overview regional hingga detail lokal kawasan terdampak</span></li>
+            <li><span class="nl-n">◉</span><span><b>Tanpa Instalasi</b> — berjalan langsung di browser smartphone/PC</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 6: METODE R&D BORG & GALL ====== -->
+  <div class="slide" id="s5">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Metode Penelitian</div>
+        <h1 class="slide-h1">Metode R&D — <em>Borg & Gall</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="info-box" style="margin-bottom:.85rem">
+            Penelitian ini menggunakan pendekatan <b>Research and Development (R&amp;D)</b> dengan model pengembangan <b>Borg &amp; Gall</b> yang diadaptasi menjadi <b>6 tahapan</b> sesuai ruang lingkup penelitian skripsi.
+          </div>
+          <div class="sec-label">Mengapa R&D?</div>
+          <ul class="num-list">
+            <li><span class="nl-n">✓</span><span>Menghasilkan produk media yang tervalidasi dan teruji kelayakannya secara sistematis</span></li>
+            <li><span class="nl-n">✓</span><span>Proses iteratif dengan umpan balik ahli (validator) dan pengguna (guru + siswa)</span></li>
+            <li><span class="nl-n">✓</span><span>Mengukur dua output utama: <b>kevalidan</b> (expert review) dan <b>kepraktisan</b> (user response)</span></li>
+          </ul>
+        </div>
+        <div>
+          <div class="sec-label">Model Borg & Gall (Diadaptasi)</div>
+          <div class="card-grid">
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--teal)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--teal);flex-shrink:0">1</div>
+                <div><div class="card-title" style="font-size:.82rem">Research & Information Collecting</div><div class="card-body" style="font-size:.72rem">Studi literatur, observasi PLP, analisis kebutuhan guru & siswa</div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--teal)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--teal);flex-shrink:0">2</div>
+                <div><div class="card-title" style="font-size:.82rem">Planning</div><div class="card-body" style="font-size:.72rem">Perancangan desain media, storyboard, arsitektur Web-3D</div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--teal)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--teal);flex-shrink:0">3</div>
+                <div><div class="card-title" style="font-size:.82rem">Develop Preliminary Form</div><div class="card-body" style="font-size:.72rem">Pengembangan prototype media Web-3D menggunakan Three.js + QGIS</div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--amber)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--amber);flex-shrink:0">4</div>
+                <div><div class="card-title" style="font-size:.82rem">Preliminary Field Testing</div><div class="card-body" style="font-size:.72rem">Validasi oleh ahli materi, ahli media, dan ahli bahasa (validator)</div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--amber)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--amber);flex-shrink:0">5</div>
+                <div><div class="card-title" style="font-size:.82rem">Main Product Revision</div><div class="card-body" style="font-size:.72rem">Revisi media berdasarkan masukan validator → perbaikan iteratif</div></div>
+              </div>
+            </div>
+            <div class="card" style="padding:.75rem 1rem;border-left:3px solid var(--green)">
+              <div style="display:flex;gap:.6rem;align-items:flex-start">
+                <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--green);flex-shrink:0">6</div>
+                <div><div class="card-title" style="font-size:.82rem">Main Field Testing</div><div class="card-body" style="font-size:.72rem">Uji kepraktisan oleh guru dan siswa SMA/MA Pekanbaru</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 7: 6 TAHAPAN DETAIL ====== -->
+  <div class="slide" id="s6">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Prosedur Pengembangan</div>
+        <h1 class="slide-h1">6 Tahapan <em>Pengembangan</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width:5%">#</th>
+            <th style="width:20%">Tahap</th>
+            <th style="width:35%">Kegiatan Utama</th>
+            <th style="width:25%">Output / Luaran</th>
+            <th style="width:15%">Metode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--teal)">1</td>
+            <td style="font-weight:600;color:var(--ink)">Pengumpulan Informasi & Analisis Kebutuhan</td>
+            <td>Studi literatur media pembelajaran Geografi, observasi pembelajaran di sekolah (PLP), wawancara guru dan siswa</td>
+            <td>Dokumen analisis kebutuhan, identifikasi kesenjangan media</td>
+            <td><span class="badge bd-slate">Observasi</span> <span class="badge bd-slate">Wawancara</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--teal)">2</td>
+            <td style="font-weight:600;color:var(--ink)">Perencanaan (Planning)</td>
+            <td>Perancangan tujuan pembelajaran, storyboard visual, desain arsitektur media Web-3D, pemilihan kawasan studi (Aceh Tamiang/Pekanbaru)</td>
+            <td>Storyboard, dokumen desain sistem, peta konsep materi mitigasi</td>
+            <td><span class="badge bd-teal">Desain</span> <span class="badge bd-teal">Storyboard</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--teal)">3</td>
+            <td style="font-weight:600;color:var(--ink)">Pengembangan Produk Awal</td>
+            <td>Akuisisi data Sentinel-2 & DEM, pengolahan di QGIS, ekspor Qgis2threejs, pengembangan UI Web-3D menggunakan Three.js</td>
+            <td>Prototype media Web-3D versi awal (alpha) yang dapat dijalankan di browser</td>
+            <td><span class="badge bd-amber">GIS & INDERAJA</span> <span class="badge bd-amber">Three.js</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--amber)">4</td>
+            <td style="font-weight:600;color:var(--ink)">Validasi Ahli (Expert Review)</td>
+            <td>Penilaian oleh ahli materi Geografi, ahli media pembelajaran, dan ahli bahasa menggunakan angket validasi berstruktur</td>
+            <td>Skor validasi per aspek, catatan perbaikan dari validator</td>
+            <td><span class="badge bd-teal">Angket Likert</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--amber)">5</td>
+            <td style="font-weight:600;color:var(--ink)">Revisi Produk</td>
+            <td>Perbaikan media berdasarkan masukan validator — penyesuaian konten materi, tampilan UI, aksesibilitas, dan akurasi data spasial</td>
+            <td>Media Web-3D versi revisi (beta) yang telah memenuhi standar kelayakan BSKAP</td>
+            <td><span class="badge bd-amber">Iterasi</span> <span class="badge bd-amber">Revisi</span></td>
+          </tr>
+          <tr>
+            <td style="font-family:var(--fh);font-size:1rem;font-weight:900;color:var(--green)">6</td>
+            <td style="font-weight:600;color:var(--ink)">Uji Coba Kepraktisan</td>
+            <td>Uji coba media kepada guru Geografi dan peserta didik SMA/MA di Pekanbaru, pengisian angket kepraktisan pengguna</td>
+            <td>Skor kepraktisan (guru & siswa), laporan temuan uji coba terbatas</td>
+            <td><span class="badge bd-teal">Angket</span> <span class="badge bd-teal">Observasi</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 8: INSTRUMEN PENELITIAN ====== -->
+  <div class="slide" id="s7">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Instrumen Penelitian</div>
+        <h1 class="slide-h1">Instrumen & <em>Pengukuran</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="sec-label">Instrumen Validasi Ahli</div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-tag">Validator 1</div>
+              <div class="card-title">📚 Angket Ahli Materi</div>
+              <div class="card-body">Menilai kesesuaian, keakuratan, dan kemutakhiran konten materi Mitigasi Bencana dalam media Web-3D. Mengacu pada KD Geografi kelas XI SMA.</div>
+              <div class="badge-row">
+                <span class="badge bd-teal">Skala Likert 1–4</span>
+                <span class="badge bd-slate">Tertutup + Terbuka</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Validator 2</div>
+              <div class="card-title">🖥️ Angket Ahli Media</div>
+              <div class="card-body">Menilai kualitas desain UI/UX, interaktivitas Three.js, kemudahan navigasi, performa rendering, dan kelayakan teknis media Web-3D.</div>
+              <div class="badge-row">
+                <span class="badge bd-teal">Skala Likert 1–4</span>
+                <span class="badge bd-slate">BSKAP Aspek Media</span>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:.75rem">
+            <div class="sec-label">Formula Kevalidan</div>
+            <div class="card" style="background:var(--ink);border-color:var(--ink)">
+              <div style="font-family:var(--fm);font-size:.82rem;color:#5fcfcf;text-align:center">
+                Validitas (%) = (Skor Aktual / Skor Maksimal) × 100%
+              </div>
+              <div style="font-size:.72rem;color:rgba(245,240,232,.4);text-align:center;margin-top:.35rem">≥85,01% = Sangat Valid · 70,01–85% = Valid · 50,01–70% = Kurang Valid (Revisi) · &lt;50% = Tidak Valid (Revisi)</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-label">Instrumen Uji Kepraktisan</div>
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-tag">Pengguna 1</div>
+              <div class="card-title">👩‍🏫 Angket Respon Guru</div>
+              <div class="card-body">Menilai kemudahan penggunaan media dalam pembelajaran, kesesuaian dengan RPP, dan potensi integrasi dalam kelas Geografi SMA.</div>
+              <div class="badge-row"><span class="badge bd-amber">Skala Likert 1–4</span></div>
+            </div>
+            <div class="card">
+              <div class="card-tag">Pengguna 2</div>
+              <div class="card-title">👨‍🎓 Angket Respon Siswa</div>
+              <div class="card-body">Menilai daya tarik, kemudahan navigasi, kebermanfaatan dalam pemahaman materi mitigasi, dan motivasi belajar setelah menggunakan media.</div>
+              <div class="badge-row"><span class="badge bd-amber">Skala Likert 1–4</span></div>
+            </div>
+          </div>
+          <div style="margin-top:.75rem">
+            <div class="sec-label">Aspek yang Diukur</div>
+            <table class="tbl">
+              <thead><tr><th>Aspek</th><th>Indikator Utama</th></tr></thead>
+              <tbody>
+                <tr><td>Kemudahan Penggunaan</td><td>Navigasi intuitif, responsif di smartphone</td></tr>
+                <tr><td>Daya Tarik Visual</td><td>Estetika 3D, warna, tipografi</td></tr>
+                <tr><td>Kebermanfaatan</td><td>Membantu memahami risiko bencana spasial</td></tr>
+                <tr><td>Interaktivitas</td><td>Kendali orbit, zoom, layer toggle</td></tr>
+                <tr><td>Motivasi Belajar</td><td>Antusiasme, keaktifan, minat eksplorasi</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:.75rem">
+            <div class="sec-label">Formula Kepraktisan</div>
+            <div class="card" style="background:var(--ink);border-color:var(--ink)">
+              <div style="font-family:var(--fm);font-size:.82rem;color:#5fcfcf;text-align:center">
+                Kepraktisan (%) = (Σ Skor / Σ Skor Maks) × 100%
+              </div>
+              <div style="font-size:.72rem;color:rgba(245,240,232,.4);text-align:center;margin-top:.35rem">85,01% = Sangat Praktis · 70,01–85% = Praktis · 50,01–70% = Kurang Praktis · &lt;50% = Tidak Praktis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 9: AKSESIBILITAS & LINK MODEL ====== -->
+  <div class="slide" id="s8">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Aksesibilitas Media</div>
+        <h1 class="slide-h1">Akses & Kontrol <em>Web-3D</em> di Smartphone</h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="info-box">
+        Media pembelajaran ini dirancang <b>tanpa instalasi</b> — cukup buka link di browser smartphone atau PC. Berikut panduan kontrol dan link langsung ke setiap model Three.js.
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="sec-label">📱 Panduan Kontrol Android</div>
+          <div class="card-grid">
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--teal)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">☝️</div>
+              <div class="card-title" style="font-size:.85rem">1 Jari Geser</div>
+              <div class="card-body" style="font-size:.75rem">Orbit kamera — putar model ke segala arah untuk melihat terrain dari berbagai sudut pandang</div>
+            </div>
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--teal)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">🤏</div>
+              <div class="card-title" style="font-size:.85rem">Cubit 2 Jari</div>
+              <div class="card-body" style="font-size:.75rem">Zoom in/out — buka jari untuk memperbesar, rapatkan untuk memperkecil tampilan model</div>
+            </div>
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--amber)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">✌️</div>
+              <div class="card-title" style="font-size:.85rem">2 Jari Geser</div>
+              <div class="card-body" style="font-size:.75rem">Pan kamera — geser seluruh tampilan ke kiri/kanan/atas/bawah tanpa memutar</div>
+            </div>
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--amber)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">👆</div>
+              <div class="card-title" style="font-size:.85rem">Ketuk Objek</div>
+              <div class="card-body" style="font-size:.75rem">Tampilkan koordinat dan atribut spasial dari titik atau objek yang disentuh</div>
+            </div>
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--green)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">🔄</div>
+              <div class="card-title" style="font-size:.85rem">Tombol GUI Panel</div>
+              <div class="card-body" style="font-size:.75rem">Aktifkan auto-orbit, toggle layer, dan manipulasi layer melalui panel dat-GUI di pojok layar</div>
+            </div>
+            <div class="card" style="padding:.85rem 1rem;border-left:3px solid var(--green)">
+              <div style="font-size:1.4rem;margin-bottom:.3rem">💡</div>
+              <div class="card-title" style="font-size:.85rem">Tips: Mode Landscape</div>
+              <div class="card-body" style="font-size:.75rem">Putar smartphone ke posisi horizontal untuk area tampilan model 3D yang lebih luas</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sec-label">🔗 Link Model Three.js</div>
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div class="card" style="border-left:3px solid var(--teal)">
+              <div class="card-tag">Model 01 · Vulkanisme</div>
+              <div class="card-title" style="font-size:.9rem;margin-bottom:.3rem">🌋 Kerawanan Gunung Marapi</div>
+              <div class="card-body" style="font-size:.75rem;margin-bottom:.65rem">Area kerawanan lontaran material, radius abu vulkanik, aliran lava dan pencemaran belerang</div>
+              <a href="https://gilobadunsanak2682003-sys.github.io/Kerawanan-Gunung-Api-Meletus/" target="_blank" class="model-open">↗ Buka Model</a>
+            </div>
+            <div class="card" style="border-left:3px solid var(--teal)">
+              <div class="card-tag">Model 02 · Hidrologi</div>
+              <div class="card-title" style="font-size:.9rem;margin-bottom:.3rem">🌊 Banjir Aceh Tamiang</div>
+              <div class="card-body" style="font-size:.75rem;margin-bottom:.65rem">Visualisasi genangan banjir 3D kawasan Aceh Tamiang menggunakan data DEM SRTM</div>
+              <a href="https://gilobadunsanak2682003-sys.github.io/MODEL_Threejs_FARHAN_HILMY/" target="_blank" class="model-open">↗ Buka Model</a>
+            </div>
+            <div class="info-box" style="font-size:.78rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+              <img src="file:///D:/skripsi/media/qrcode.png"
+                alt="QR Code Media Ajar"
+                style="width:90px;height:90px;object-fit:contain;border-radius:6px;border:2px solid rgba(29,107,107,.3);flex-shrink:0;background:#fff;padding:4px"/>
+              <div>
+                <div style="font-weight:600;margin-bottom:.3rem">📱 Scan QR — Buka Media Pembelajaran Web-3D</div>
+                <div>Arahkan kamera smartphone ke QR Code, atau ketik langsung di browser:</div>
+                <a href="https://gilobadunsanak2682003-sys.github.io/Media-Pembelajaran-WEB-3D/" target="_blank"
+                  style="font-family:var(--fm);font-size:.7rem;color:var(--teal);word-break:break-all">
+                  gilobadunsanak2682003-sys.github.io/Media-Pembelajaran-WEB-3D/
+                </a>
+            </div>
+            
+            <div class="info-box" style="font-size:.78rem">
+              <b>Cara akses:</b> Scan QR atau ketik URL langsung di browser Chrome/Firefox smartphone. Model berjalan tanpa instalasi menggunakan WebGL yang sudah tertanam di browser modern.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SLIDE 10: PENUTUP ====== -->
+  <div class="slide" id="s9">
+    <div class="slide-inner">
+      <div>
+        <div class="slide-tag">// Penutup</div>
+        <h1 class="slide-h1">Terima <em>Kasih</em></h1>
+        <div class="rule-teal" style="margin-top:.75rem"></div>
+      </div>
+      <div class="two-col">
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="card" style="background:var(--ink);border-color:var(--ink);color:var(--paper)">
+            <div style="font-family:var(--fm);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-bottom:.4rem">Peneliti</div>
+            <div style="font-family:var(--fh);font-size:1.3rem;font-weight:900">Farhan Hilmy</div>
+            <div style="font-family:var(--fm);font-size:.72rem;color:rgba(245,240,232,.5);margin-bottom:.6rem">NIM. 12211313442</div>
+            <div style="font-size:.78rem;color:rgba(245,240,232,.7);line-height:1.6">Pendidikan Geografi<br/>Fakultas Tarbiyah dan Keguruan<br/>UIN Sultan Syarif Kasim Riau</div>
+          </div>
+          <div class="card">
+            <div style="font-family:var(--fm);font-size:.62rem;color:var(--slate-light);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem">Dosen Pembimbing</div>
+            <div style="font-family:var(--fh);font-size:1rem;font-weight:700">Hendra Saputra, M.Pd</div>
+          </div>
+          <div class="warn-box">
+            <b>Harapan penelitian:</b> Media Web-3D ini menjadi solusi konkret mengatasi keterbatasan media 2D statis dalam pembelajaran Geografi — menghadirkan real-terrain yang imersif, interaktif, dan mudah diakses oleh siswa SMA di mana pun.
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="sec-label">Ringkasan Penelitian</div>
+          <ul class="num-list">
+            <li><span class="nl-n">📌</span><span><b>Judul:</b> Pengembangan Media Pembelajaran Geografi Berbasis Web-3D melalui Visualisasi Geospasial Real-Terrain menggunakan Library Three.js pada Materi Mitigasi Bencana</span></li>
+            <li><span class="nl-n">🔬</span><span><b>Metode:</b> R&D — Model Borg & Gall (6 Tahap)</span></li>
+            <li><span class="nl-n">📊</span><span><b>Output:</b> Kevalidan (validator ahli) + Kepraktisan (guru & siswa SMA Pekanbaru)</span></li>
+            <li><span class="nl-n">⚙️</span><span><b>Teknologi:</b> Three.js + WebGL + SNAP + Arcmap + QGIS + Sentinel-2 DEM</span></li>
+            <li><span class="nl-n">📐</span><span><b>Standar:</b> BSKAP Kemendikbudristek + SKKNI Informasi Geospasial</span></li>
+            <li><span class="nl-n">🧠</span><span><b>Landasan Teori:</b> CTML Richard Mayer (2009, 2020)</span></li>
+          </ul>
+          <div class="card-grid" style="margin-top:.25rem">
+            <div class="card" style="text-align:center;padding:.75rem">
+              <div style="font-family:var(--fh);font-size:1.8rem;font-weight:900;color:var(--teal)">6</div>
+              <div style="font-size:.72rem;color:var(--slate-light)">Rumusan Masalah</div>
+            </div>
+            <div class="card" style="text-align:center;padding:.75rem">
+              <div style="font-family:var(--fh);font-size:1.8rem;font-weight:900;color:var(--teal)">6</div>
+              <div style="font-size:.72rem;color:var(--slate-light)">Tahap R&D</div>
+            </div>
+            <div class="card" style="text-align:center;padding:.75rem">
+              <div style="font-family:var(--fh);font-size:1.8rem;font-weight:900;color:var(--amber)">2</div>
+              <div style="font-size:.72rem;color:var(--slate-light)">Validator Ahli</div>
+            </div>
+            <div class="card" style="text-align:center;padding:.75rem">
+              <div style="font-family:var(--fh);font-size:1.8rem;font-weight:900;color:var(--green)">4</div>
+              <div style="font-size:.72rem;color:var(--slate-light)">Aspek Kelayakan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slides-wrap -->
+
+<!-- FOOTER -->
+<div class="pres-foot">
+  <span class="foot-txt" id="slideTitle">COVER — Halaman Judul</span>
+  <span class="foot-txt">PENDIDIKAN GEOGRAFI · FTK · UIN SUSKA RIAU · 2026</span>
+</div>
+
+<!-- KBD HINT -->
+<div class="kbd-hint" id="kbdHint">← → Navigasi · Space = Lanjut</div>
+
+<script>
+const SLIDES = [
+  "COVER — Halaman Judul",
+  "DEMO MODEL — Kerawanan Gunung Api Meletus",
+  "RUMUSAN MASALAH — 6 Pertanyaan Penelitian",
+  "STANDAR KELAYAKAN — BSKAP & SKKNI Geospasial",
+  "KAJIAN TEORI — Multimedia Learning Richard Mayer",
+  "TEKNOLOGI — Alur Teknis Integrasi Data Geospasial",
+  "METODE — R&D Borg & Gall",
+  "PROSEDUR — 6 Tahapan Pengembangan",
+  "INSTRUMEN — Validasi & Kepraktisan",
+  "AKSESIBILITAS — Kontrol Web-3D di Smartphone",
+  "PENUTUP — Terima Kasih",
+];
+const N = SLIDES.length;
+let cur = 0;
+
+function go(dir){
+  const slides = document.querySelectorAll('.slide');
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('prev');
+  setTimeout(()=> slides[cur].classList.remove('prev'), 400);
+  cur = Math.max(0, Math.min(N-1, cur+dir));
+  slides[cur].classList.add('active');
+  update();
+}
+
+function update(){
+  document.getElementById('ctr').textContent = `${cur+1} / ${N}`;
+  document.getElementById('prog').style.width = `${((cur+1)/N)*100}%`;
+  document.getElementById('slideTitle').textContent = SLIDES[cur];
+  document.getElementById('prevBtn').disabled = cur===0;
+  document.getElementById('nextBtn').disabled = cur===N-1;
+}
+
+// keyboard
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' '){e.preventDefault();if(cur<N-1)go(1)}
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();if(cur>0)go(-1)}
+});
+
+// hide kbd hint after 5s
+setTimeout(()=>{document.getElementById('kbdHint').style.opacity='0'},5000);
+
+update();
+</script>
+</body>
+</html>
